@@ -130,10 +130,9 @@ button{
     color: #fff;
     font-size: 18px;
     border-radius: 20px;
-    position: absolute;
     left: 50%;
-    top:280px;
     transform: translate(-50%,0px);
+    position: relative;
 }
 button:hover
 {
