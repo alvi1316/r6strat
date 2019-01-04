@@ -25,7 +25,7 @@
             if(!$dbmanager->usernameIsUnique($conn,$newUsername)){
                 $error = $error. "This Username Exists</br>";
             }else{
-                $newPassword = md5($newPassword);
+                $newPassword = sha1($newPassword);
                 $dbmanager->updateUserData($conn,$oldUsername,$newUsername,$newPassword,$dp);
                 $_SESSION['username']=$newUsername;
                 header('location:Home.php');
