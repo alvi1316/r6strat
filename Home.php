@@ -9,7 +9,7 @@
     
         $dbmanager = new DatabaseManager();//Created an object of DatabaseManager
         
-        $conn = $dbmanager->dbConnection("localhost","root","");//Got a connection to database
+        $conn = $dbmanager->dbConnection();//Got a connection to database
 
         $row = $dbmanager->userInfoData($conn,$username);
 
@@ -20,6 +20,7 @@
     <head>
         <title><?php echo strtoupper($username);?></title>
         <link rel="stylesheet" type="text/css" href="css/home.css">
+        <script type="text/javascript" src="js/home.js"></script>
     </head>
     <body>
         <header>
@@ -28,7 +29,7 @@
                     <ul>
                         <li> <a href="#"> <?php echo $username;?></a></li>
                     </ul>
-                    <img src="../image/avatar/smoke.png" class = "avatar">
+                    <img src="<?php echo $row['dp']?>" class = "avatar">
                 </div>
                 
                 <div class="menu_list">
@@ -43,7 +44,7 @@
             </div>
         </header>
         <div class = "info_content">
-            <img src="../image/avatar/smoke.png" class="info_content_avatar" onclick = "divCreator()">
+            <img src="<?php echo $row['dp']?>" class="info_content_avatar" onclick = "divCreator()">
             <br>
             <br>
             <br>
@@ -58,10 +59,6 @@
             </p>
             <button onclick="editProfileAction()">Edit Profile</button>
         </div>
-        <script>
-            function editProfileAction(){
-                window.location.href = "EditProfile.php";
-            }
-        </script>
+        
     </body>
 </html>

@@ -1,7 +1,7 @@
 <?php
     session_start();
     if(isset($_SESSION['username'])){
-        header('location:home.php');
+        header('location:Home.php');
         exit();
     }
     $error="";
@@ -10,7 +10,7 @@
     
         $dbmanager = new DatabaseManager();//Created an object of DatabaseManager
         
-        $conn = $dbmanager->dbConnection("localhost","root","");//Got a connection to database
+        $conn = $dbmanager->dbConnection();//Got a connection to database
 
         //Got the given username,password,email
         $username = $_POST['username'];

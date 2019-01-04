@@ -1,7 +1,7 @@
 <?php
     session_start();
     if(isset($_SESSION['username'])){
-        header('location:home.php');
+        header('location:Home.php');
     }
     $error="";
     if(isset($_POST['login'])){
@@ -9,7 +9,7 @@
     
         $dbmanager = new DatabaseManager();//Created an object of DatabaseManager
         
-        $conn = $dbmanager->dbConnection("localhost","root","");//Got a connection to database
+        $conn = $dbmanager->dbConnection();//Got a connection to database
 
         //Got the given username,password
         $username = $_POST['username'];
@@ -18,7 +18,7 @@
         if($username!="" && $password!=""){
             if($dbmanager->loginCheck($conn,$username,$password)){
                 $_SESSION['username']=$username;
-                header('location:home.php');
+                header('location:Home.php');
             }else{
                 $error = "Wrong username or password";
             }

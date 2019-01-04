@@ -8,5 +8,6 @@ function changeProfilePicture(id){
     var imagePath = document.getElementById(id).src;
     document.getElementById("avatar").src = imagePath;
     document.getElementById("avatar1").src = imagePath;
+    document.getElementById("dp").value = imagePath;
     chooseProPicDivHide();
 }

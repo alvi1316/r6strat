@@ -4,8 +4,8 @@
   class DatabaseManager{
 
     //This function returns the connection
-    function dbConnection($serverName,$userName,$serverPassword){
-      $conn = new mysqli($serverName,$userName,$serverPassword);
+    function dbConnection(){
+      $conn = new mysqli("sql203.epizy.com","epiz_23119201","r6strat","epiz_23119201_data");
       if($conn->connect_error){
         die("Connection Error".$conn->connect_error);
       }else{ 
@@ -15,7 +15,7 @@
 
     //This function inserts the data of signup
     function signupInsertData($conn,$username,$password,$email){
-      $qry = "INSERT INTO data.user (username,password,email) VALUES ('$username','$password','$email')";
+      $qry = "INSERT INTO epiz_23119201_data.user (username,password,email,dp) VALUES ('$username','$password','$email','../image/avatar/smoke.png')";
       if($conn->query($qry)===TRUE){
         return TRUE;
       }else{
@@ -24,18 +24,35 @@
       }
     }
 
+    //This function checks unique username
+    function usernameIsUnique($conn,$username){
+      $qry = "SELECT * FROM epiz_23119201_data.user WHERE username = '$username'";
+      $result=$conn->query($qry);
+      $bool = TRUE;
+      if($result->num_rows>0){
+        $bool = FALSE;
+      }
+      return $bool;
+    }
+
+    //This function checks unique email
+    function emailIsUnique($conn,$email){
+      $qry = "SELECT * FROM epiz_23119201_data.user WHERE email = '$email'";
+      $result=$conn->query($qry);
+      $bool = TRUE;
+      if($result->num_rows>0){
+        $bool = FALSE;
+      }
+      return $bool;
+    }
 
     //This function checks unique username and email
     function checkUniqueUsernameEmail($conn,$username,$email){
-      $qry = "SELECT username FROM data.user WHERE username = '$username'";
       $error = "";
-      $result=$conn->query($qry);
-      if($result->num_rows>0){
+      if(!$this->usernameIsUnique($conn,$username)){
         $error = "Username Exists</br>";
       }
-      $result=$conn->query($qry);
-      $qry = "SELECT * FROM data.user where email = $email";
-      if($result->num_rows>0){
+      if(!$this->emailIsUnique($conn,$email)){
         $error = $error."Email Exists<br>";
       }
       return $error;
@@ -43,7 +60,7 @@
     
     //This function checks password for login
     function loginCheck($conn,$username,$password){
-      $qry = "SELECT password FROM data.user WHERE username = '$username'";
+      $qry = "SELECT password FROM epiz_23119201_data.user WHERE username = '$username'";
       $bool = FALSE;
       $result=$conn->query($qry);
       $row=$result->fetch_assoc();
@@ -55,11 +72,23 @@
 
     //This function returns all information of the user
     function userInfoData($conn,$username){
-      $qry = "SELECT * FROM data.user WHERE username = '$username'";
+      $qry = "SELECT * FROM epiz_23119201_data.user WHERE username = '$username'";
       $result=$conn->query($qry);
       $row=$result->fetch_assoc();
       return $row;
     }
     
+    //This function updates username and password 
+    function updateUserData($conn,$oldUsername,$username,$password,$dp){
+      $qry = "UPDATE epiz_23119201_data.user SET username = '$username', password = '$password', dp = '$dp' WHERE username = '$oldUsername'";
+      if($conn->query($qry)===TRUE){
+        return TRUE;
+      }else{
+        echo $conn->error;
+        return FALSE;
+      }
+    }
+
+
   }
  ?>

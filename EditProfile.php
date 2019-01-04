@@ -5,14 +5,11 @@
         exit();
     }else{
         $username = $_SESSION['username'];
-        include 'databasemanager.php';
-    
+        include "databasemanager.php";
         $dbmanager = new DatabaseManager();//Created an object of DatabaseManager
-        
-        $conn = $dbmanager->dbConnection("localhost","root","");//Got a connection to database
-
+        $conn = $dbmanager->dbConnection();//Got a connection to database
         $row = $dbmanager->userInfoData($conn,$username);
-
+        include "EditProfileProcess.php";
     }
 ?>
 <!DOCTYPE html>
@@ -29,7 +26,7 @@
                     <ul>
                         <li> <a href="#"> <?php echo $username;?></a></li>
                     </ul>
-                    <img src="../image/avatar/smoke.png" class = "avatar" id="avatar">
+                    <img src="<?php echo $row['dp'];?>" class = "avatar" id="avatar">
                 </div>
                 
                 <div class="menu_list">
@@ -49,20 +46,19 @@
             <br>
             <br>
             <br>
-
-            <form action="home.php" method="POST">
+            <form action="EditProfile.php" method="POST">
+                <input type="hidden" name="oldUsername" value="<?php echo $username; ?>"/>
+                <input type="hidden" name="dp" id ="dp" value="<?php echo $row['dp'];?>"/>
                 <h3>username</h3>
-                <input type="text" name="username" placeholder="Enter Username">
+                <input type="text" name="newUsername" placeholder="Enter Username">
                 <h3>New Password</h3>
-                <input type="password" name="password" placeholder="Enter New Password">
+                <input type="password" name="newPassword" placeholder="Enter New Password">
                 <h3>Repeat New Password</h3>
-                <input type="password" name="password" placeholder="Reapeat New Password">
+                <input type="password" name="repeatNewPassword" placeholder="Reapeat New Password">
                 <input type="submit" name="submit" value="Submit">
+                <?php echo "<p>".$error."</p>"; ?>
             </form>
-
-            
         </div>
-        
         <div id="choose_pic_div" class = "wow">
             <h1>Choose your profile picture....<h1>
             <br>
